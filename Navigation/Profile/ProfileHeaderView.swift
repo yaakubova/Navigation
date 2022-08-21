@@ -93,9 +93,15 @@ class ProfileHeaderView: UIView {
         button.layer.shadowRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.7
+
+        button.addTarget(self, action: #selector(onTouch), for: .touchUpInside)
         
         return button
     }()
+    
+    @objc private func onTouch() {
+        print(self.statusLabel.text!)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
