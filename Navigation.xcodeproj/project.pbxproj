@@ -77,7 +77,6 @@
 				2CA0FD7B28B1190C0065E03C /* Info.plist */,
 				2C3F4F9D28B125F400E74839 /* InfoViewController.swift */,
 				2C3F4F9F28B1265600E74839 /* PostViewController.swift */,
-				2C3F4F9B28B125BF00E74839 /* ProfileViewController.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -85,6 +84,7 @@
 		2CC0801828B23A380039A120 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				2C3F4F9B28B125BF00E74839 /* ProfileViewController.swift */,
 				2CC0801928B23B1E0039A120 /* ProfileHeaderView.swift */,
 			);
 			path = Profile;
