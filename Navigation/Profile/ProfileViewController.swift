@@ -10,10 +10,12 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     private lazy var profileHeaderView: ProfileHeaderView = {
-        let view = ProfileHeaderView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
-        
-        view.backgroundColor = .systemPink
-        view.translatesAutoresizingMaskIntoConstraints = false
+        let view = ProfileHeaderView(frame: CGRect(
+            x: 0.0,
+            y: self.view.safeAreaInsets.top,
+            width: self.view.frame.size.width,
+            height: self.view.frame.size.height - self.view.safeAreaInsets.bottom
+        ))
         
         return view
     }()
@@ -22,7 +24,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .lightGray
-        
+        self.navigationItem.title = "Profile"
     }
     
     override func viewWillLayoutSubviews() {
