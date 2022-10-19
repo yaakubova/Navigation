@@ -7,33 +7,30 @@
 
 import UIKit
 
+struct Constants {
+    static let imageWidth = 100
+    static let imageHeight = 100
+}
+
 class ProfileHeaderView: UIView {
     
     private lazy var avatar: UIImageView = {
         let imageView = UIImageView()
         
         imageView.image = UIImage(named: "avatar")
-        imageView.frame = CGRect(
-            x: self.safeAreaInsets.left + 16,
-            y: self.safeAreaInsets.top + 16,
-            width: 100,
-            height: 100
-        )
 
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.cornerRadius = imageView.frame.height / 2
+        imageView.layer.cornerRadius = CGFloat(Constants.imageHeight) / 2
         
         imageView.clipsToBounds = true
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         return imageView
     }()
     
-    
-    private let DEFAULT_TEXT_OFFSET = 20.0
-    
     private lazy var usernameLabel: UILabel = {
-        let DEFAULT_Y_OFFSET = 11.0
         let DEFAULT_FONT_SIZE = 18.0
         
         let label = UILabel()
@@ -42,18 +39,12 @@ class ProfileHeaderView: UIView {
         label.textColor = .black
         label.font = UIFont.boldSystemFont(ofSize: DEFAULT_FONT_SIZE)
         
-        label.frame = CGRect(
-            x: self.avatar.frame.maxX + self.DEFAULT_TEXT_OFFSET,
-            y: self.avatar.frame.minY + DEFAULT_Y_OFFSET,
-            width: self.frame.width - self.avatar.frame.width,
-            height: DEFAULT_FONT_SIZE
-        )
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
     
     private lazy var statusLabel: UILabel = {
-        let DEFAULT_Y_OFFSET = 18.0
         let DEFAULT_FONT_SIZE = 14.0
         
         let label = UILabel()
@@ -62,25 +53,13 @@ class ProfileHeaderView: UIView {
         label.textColor = .gray
         label.font = UIFont.systemFont(ofSize: DEFAULT_FONT_SIZE)
         
-        label.frame = CGRect(
-            x: self.avatar.frame.maxX + self.DEFAULT_TEXT_OFFSET,
-            y: self.avatar.frame.maxY - DEFAULT_Y_OFFSET - DEFAULT_FONT_SIZE,
-            width: self.frame.width - self.avatar.frame.width,
-            height: DEFAULT_FONT_SIZE
-        )
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
     
     private lazy var showStatusButton: UIButton = {
-        let DEFAULT_Y_OFFSET = 16.0
-        
-        let button = UIButton(frame: CGRect(
-            x: self.avatar.frame.minX,
-            y: self.avatar.frame.maxY + DEFAULT_Y_OFFSET,
-            width: self.frame.width - (2 * self.avatar.frame.minX),
-            height: 90
-        ))
+        let button = UIButton()
         
         button.setTitle("Show Status", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -96,7 +75,40 @@ class ProfileHeaderView: UIView {
 
         button.addTarget(self, action: #selector(onTouch), for: .touchUpInside)
         
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
+    }()
+    
+    private lazy var rootContainer: UIStackView = {
+        let container = UIStackView()
+        
+        container.axis = .vertical
+        
+        container.translatesAutoresizingMaskIntoConstraints = false
+        
+        return container
+    }()
+    
+    private lazy var userDataContainer: UIStackView = {
+        let container = UIStackView()
+        
+        container.axis = .horizontal
+        
+        container.translatesAutoresizingMaskIntoConstraints = false
+        
+        return container
+    }()
+    
+    private lazy var labelsContainer: UIStackView = {
+        let container = UIStackView()
+        
+        container.axis = .vertical
+        container.distribution = .fillEqually
+        
+        container.translatesAutoresizingMaskIntoConstraints = false
+    
+        return container
     }()
     
     @objc private func onTouch() {
@@ -114,9 +126,36 @@ class ProfileHeaderView: UIView {
     }
     
     private func drawSelf() {
-        self.addSubview(self.avatar)
-        self.addSubview(self.usernameLabel)
-        self.addSubview(self.statusLabel)
-        self.addSubview(self.showStatusButton)
+        self.addSubview(self.userDataContainer)
+        self.addSubview(self.rootContainer)
+        
+        self.labelsContainer.addArrangedSubview(self.usernameLabel)
+        self.labelsContainer.addArrangedSubview(self.statusLabel)
+        
+        self.userDataContainer.addArrangedSubview(self.avatar)
+        self.userDataContainer.addArrangedSubview(self.labelsContainer)
+
+        self.rootContainer.addArrangedSubview(self.userDataContainer)
+        self.rootContainer.addArrangedSubview(self.showStatusButton)
+        
+        NSLayoutConstraint.activate([
+            self.rootContainer.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
+            self.rootContainer.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            self.rootContainer.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -16),
+            
+            self.userDataContainer.topAnchor.constraint(equalTo: self.rootContainer.topAnchor),
+            self.userDataContainer.leftAnchor.constraint(equalTo: self.rootContainer.leftAnchor),
+
+            self.avatar.widthAnchor.constraint(equalToConstant: CGFloat(Constants.imageWidth)),
+            self.avatar.heightAnchor.constraint(equalToConstant: CGFloat(Constants.imageHeight)),
+            
+            self.labelsContainer.topAnchor.constraint(equalTo: self.avatar.topAnchor, constant: 11),
+            self.labelsContainer.leftAnchor.constraint(equalTo: self.avatar.rightAnchor, constant: 20),
+            self.labelsContainer.bottomAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: -18),
+            
+            self.showStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            self.showStatusButton.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: 16),
+            self.showStatusButton.widthAnchor.constraint(equalTo: self.rootContainer.widthAnchor)
+        ])
     }
 }

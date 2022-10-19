@@ -11,10 +11,10 @@ class ProfileViewController: UIViewController {
     
     private lazy var profileHeaderView: ProfileHeaderView = {
         let view = ProfileHeaderView(frame: CGRect(
-            x: 0.0,
+            x: 0,
             y: self.view.safeAreaInsets.top,
             width: self.view.frame.size.width,
-            height: self.view.frame.size.height - self.view.safeAreaInsets.bottom
+            height: 220
         ))
         
         return view
