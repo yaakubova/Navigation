@@ -126,7 +126,6 @@ class ProfileHeaderView: UIView {
     }
     
     private func drawSelf() {
-        self.addSubview(self.labelsContainer)
         self.addSubview(self.userDataContainer)
         self.addSubview(self.rootContainer)
         
@@ -136,32 +135,27 @@ class ProfileHeaderView: UIView {
         self.userDataContainer.addArrangedSubview(self.avatar)
         self.userDataContainer.addArrangedSubview(self.labelsContainer)
 
-        
         self.rootContainer.addArrangedSubview(self.userDataContainer)
-        
-
+        self.rootContainer.addArrangedSubview(self.showStatusButton)
         
         NSLayoutConstraint.activate([
-            
             self.rootContainer.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
             self.rootContainer.leftAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leftAnchor, constant: 16),
             self.rootContainer.rightAnchor.constraint(equalTo: self.safeAreaLayoutGuide.rightAnchor, constant: -16),
-//
+            
+            self.userDataContainer.topAnchor.constraint(equalTo: self.rootContainer.topAnchor),
+            self.userDataContainer.leftAnchor.constraint(equalTo: self.rootContainer.leftAnchor),
+
             self.avatar.widthAnchor.constraint(equalToConstant: CGFloat(Constants.imageWidth)),
             self.avatar.heightAnchor.constraint(equalToConstant: CGFloat(Constants.imageHeight)),
             
-            self.labelsContainer.topAnchor.constraint(equalTo: self.userDataContainer.topAnchor, constant: 11),
+            self.labelsContainer.topAnchor.constraint(equalTo: self.avatar.topAnchor, constant: 11),
+            self.labelsContainer.leftAnchor.constraint(equalTo: self.avatar.rightAnchor, constant: 20),
+            self.labelsContainer.bottomAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: -18),
             
-//            self.labelsContainer.leftAnchor.constraint(equalTo: self.avatar.rightAnchor, constant: 20),
-//            self.labelsContainer.bottomAnchor.constraint(equalTo: self.userDataContainer.bottomAnchor, constant: -18),
-//            self.showStatusButton.heightAnchor.constraint(equalToConstant: 90),
-//            self.showStatusButton.heightAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: 106),
-//            self.showStatusButton.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: 16),
-//            self.showStatusButton.topAnchor.constraint(equalTo: self.userDataContainer.bottomAnchor, constant: 16),
-//            self.showStatusButton.leftAnchor.constraint(equalTo: self.rootContainer.leftAnchor),
-//            self.showStatusButton.rightAnchor.constraint(equalTo: self.rootContainer.rightAnchor),
-//            self.showStatusButton.widthAnchor.constraint(equalTo: self.rootContainer.widthAnchor)
-//            self.showStatusButton.heightAnchor.constraint(equalToConstant: 90)
+            self.showStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            self.showStatusButton.topAnchor.constraint(equalTo: self.avatar.bottomAnchor, constant: 16),
+            self.showStatusButton.widthAnchor.constraint(equalTo: self.rootContainer.widthAnchor)
         ])
     }
 }
